@@ -2,57 +2,35 @@ package array1D;
 
 import java.io.IOException;
 
-//3,4,8,5,9
-
 public class QuickSort {
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 	Userdefined1DArray userdefined1dArray=new Userdefined1DArray();
 	QuickSort ob=new QuickSort();
 	int arr[]=userdefined1dArray.initialize();
-	ob.quickSort(arr,0,arr.length-1);
-	userdefined1dArray.printArray(arr, arr.length);
+	userdefined1dArray.printArray(ob.quickSort(arr,0,arr.length-1), arr.length);
 }
 
-	private void quickSort(int[] arr, int st, int last) {
+	private int[] quickSort(int[] arr, int st, int last) {
 		// TODO Auto-generated method stub
-		int end = last;
-		if (st>=end)
-			return;
-		
-		int pivot = st++;
-		System.out.println("st " +st + " end " + end+ " piv "+pivot);
-		while(st<=end)
+		if(st>=last)
+			return arr;
+		int p_pv=st;
+		int pivot = arr[st];
+		int i=st;
+		for(int j= st+1;j<=last;j++)
 		{
-			if(arr[st]<arr[pivot])
+			if(arr[j]<pivot)
 			{
-				st++;
+				i++;
+				exchange(arr,i,j);
 			}
-			if(arr[end]>arr[pivot])
-			{
-				end--;
-			}
-			if(arr[st]>arr[pivot] && arr[end]<arr[pivot])
-			{	
-				exchange(arr,st,end);
-			st++;
-			end--;
-			}
-			System.out.println("st " +st + " end " + end+ " piv "+pivot);
 		}
-		exchange(arr,pivot,end);
-		pivot=end;
-		System.out.println(" array : ");
-		for(int i:arr)
-			System.out.print(i+",");
-		System.out.println();
-		if(end==pivot)
-			quickSort(arr, 0, end-1);
-		else if(st>pivot)
-			quickSort(arr, st, last);
+		exchange(arr,p_pv,i);
+		quickSort(arr, st, i-1);
+		quickSort(arr,i+1,last);
+		return arr;
 	}
-	//if()
-
 	private void exchange(int[] arr,int a, int b) {
 		// TODO Auto-generated method stub
 		int temp = arr[a];
